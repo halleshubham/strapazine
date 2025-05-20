@@ -5,35 +5,39 @@
     "singularName": "issue",
     "pluralName": "issues",
     "displayName": "Issue",
-    "description": ""
+    "description": "Weekly magazine issues"
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "issueNumber": {
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "min": 1
+    },
+    "publishDate": {
+      "type": "date",
+      "required": true
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "articles": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::article.article"
-    },
-    "name": {
-      "type": "string"
-    },
-    "publication_date": {
-      "type": "date"
-    },
-    "description": {
-      "type": "blocks"
-    },
-    "cover_image": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      "target": "api::article.article",
+      "mappedBy": "issue"
     }
   }
 }
