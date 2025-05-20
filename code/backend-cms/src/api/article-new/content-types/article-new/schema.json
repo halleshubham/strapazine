@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "article_news",
+  "info": {
+    "singularName": "article-new",
+    "pluralName": "article-news",
+    "displayName": "Article New"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "Body": {
+      "type": "richtext"
+    },
+    "Author": {
+      "type": "string"
+    }
+  }
+}
