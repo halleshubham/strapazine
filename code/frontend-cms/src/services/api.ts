@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiResponse, Article, Author, Category, Issue } from '../types';
+import type { Article, Author, Category, Issue } from '../types';
 
 const API_URL = 'http://localhost:1337/api';
 
@@ -11,17 +11,74 @@ const api = axios.create({
 });
 
 // Helper to normalize Strapi response structure
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const normalizeResponse = <T>(response: any): T => {
   if (Array.isArray(response.data)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return response.data.map((item: any) => ({
       id: item.id,
       ...item.attributes,
+      // Ensure categories is always an array
+      categories: item.attributes.categories?.data 
+        ? item.attributes.categories.data.map((cat: any) => ({
+            id: cat.id,
+            ...cat.attributes
+          }))
+        : [],
+      // Ensure author is properly normalized
+      author: item.attributes.author?.data 
+        ? {
+            id: item.attributes.author.data.id,
+            ...item.attributes.author.data.attributes
+          }
+        : null,
+      // Ensure issue is properly normalized
+      issue: item.attributes.issue?.data 
+        ? {
+            id: item.attributes.issue.data.id,
+            ...item.attributes.issue.data.attributes
+          }
+        : null,
+      // Ensure coverImage is properly normalized
+      coverImage: item.attributes.coverImage?.data 
+        ? {
+            url: item.attributes.coverImage.data.attributes.url
+          }
+        : null,
     })) as T;
   }
   
+  const data = response.data;
   return {
-    id: response.data.id,
-    ...response.data.attributes,
+    id: data.id,
+    ...data.attributes,
+    // Ensure categories is always an array
+    categories: data.attributes.categories?.data 
+      ? data.attributes.categories.data.map((cat: any) => ({
+          id: cat.id,
+          ...cat.attributes
+        }))
+      : [],
+    // Ensure author is properly normalized
+    author: data.attributes.author?.data 
+      ? {
+          id: data.attributes.author.data.id,
+          ...data.attributes.author.data.attributes
+        }
+      : null,
+    // Ensure issue is properly normalized
+    issue: data.attributes.issue?.data 
+      ? {
+          id: data.attributes.issue.data.id,
+          ...data.attributes.issue.data.attributes
+        }
+      : null,
+    // Ensure coverImage is properly normalized
+    coverImage: data.attributes.coverImage?.data 
+      ? {
+          url: data.attributes.coverImage.data.attributes.url
+        }
+      : null,
   } as T;
 };
 

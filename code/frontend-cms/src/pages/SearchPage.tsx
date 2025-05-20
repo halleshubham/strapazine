@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { searchArticles } from '../services/api';
 import ArticleGrid from '../components/Articles/ArticleGrid';
 import Pagination from '../components/Common/Pagination';
-import { Article, PaginationData } from '../types'
+import type { Article, PaginationData } from '../types'
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();

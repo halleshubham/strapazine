@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuthors } from '../services/api';
-import { Author } from '../types';
+import type { Author } from '../types';
 
 const AuthorsPage = () => {
   const [authors, setAuthors] = useState<Author[]>([]);

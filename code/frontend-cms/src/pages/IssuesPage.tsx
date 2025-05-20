@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { getIssues } from '../services/api';
 import Pagination from '../components/Common/Pagination';
-import { Issue, PaginationData } from '../types';
+import type { Issue, PaginationData } from '../types';
 
 const IssuesPage = () => {
   const [issues, setIssues] = useState<Issue[]>([]);

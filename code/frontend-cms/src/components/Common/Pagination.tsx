@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import { PaginationData } from '../../types';
+import type { PaginationData } from '../../types';
 
 interface PaginationProps {
   pagination: PaginationData;

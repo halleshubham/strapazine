@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { getArticleBySlug } from '../services/api';
-import { Article } from '../types';
+import type { Article } from '../types';
 
 const ArticlePage = () => {
   const { slug } = useParams<{ slug: string }>();

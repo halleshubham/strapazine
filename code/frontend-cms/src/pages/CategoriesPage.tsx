@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
-import { Category } from '../types';
+import type { Category } from '../types';
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getArticles, getCategories } from '../services/api';
 import ArticleGrid from '../components/Articles/ArticleGrid';
 import Pagination from '../components/Common/Pagination';
-import { Article, Category, PaginationData } from '../types';
+import type { Article, Category, PaginationData } from '../types';
 
 const HomePage = () => {
   const [articles, setArticles] = useState<Article[]>([]);

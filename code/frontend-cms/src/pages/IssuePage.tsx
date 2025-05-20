@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { getArticlesByIssue } from '../services/api';
 import ArticleGrid from '../components/Articles/ArticleGrid';
 import Pagination from '../components/Common/Pagination';
-import { Article, Issue, PaginationData } from '../types';
+import type { Article, Issue, PaginationData } from '../types';
 
 const IssuePage = () => {
   const { id } = useParams<{ id: string }>();
