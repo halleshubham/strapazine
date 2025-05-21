@@ -450,7 +450,6 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       'api::category.category'
     >;
     content: Schema.Attribute.RichText & Schema.Attribute.Required;
-    coverImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -459,6 +458,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 300;
       }>;
+    featuredImage: Schema.Attribute.Media<'images'>;
     issue: Schema.Attribute.Relation<'manyToOne', 'api::issue.issue'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -580,10 +580,10 @@ export interface ApiIssueIssue extends Struct.CollectionTypeSchema {
   };
   attributes: {
     articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
-    coverImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    featuredImage: Schema.Attribute.Media<'images'>;
     issueNumber: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &

@@ -52,15 +52,15 @@ const ArticlePage = () => {
     );
   }
 
-  const imageUrl = article.coverImage?.url
-    ? `http://localhost:1337${article.coverImage.url}`
+  const imageUrl = article.featuredImage?.url
+    ? `${article.featuredImage.url}`
     : 'https://via.placeholder.com/1200x600';
 
   return (
     <article className="max-w-4xl mx-auto">
       <header className="mb-8">
         <div className="flex flex-wrap gap-2 mb-4">
-          {article.categories.map(category => (
+          {article.categories && article.categories.map(category => (
             <Link
               key={category.id}
               to={`/category/${category.slug}`}
@@ -76,10 +76,10 @@ const ArticlePage = () => {
         </h1>
         
         <div className="flex items-center text-gray-600 mb-6">
-          <Link to={`/author/${article.author.id}`} className="flex items-center group">
+          {article.author && <Link to={`/author/${article.author.id}`} className="flex items-center group">
             {article.author.avatar && (
               <img 
-                src={`http://localhost:1337${article.author.avatar.url}`}
+                src={`${article.author.avatar.url}`}
                 alt={article.author.name} 
                 className="w-10 h-10 rounded-full mr-3 object-cover"
               />
@@ -87,7 +87,7 @@ const ArticlePage = () => {
             <span className="font-medium group-hover:text-magazine-primary">
               {article.author.name}
             </span>
-          </Link>
+          </Link>}
           <span className="mx-2">•</span>
           <time dateTime={article.publishedAt}>
             {format(new Date(article.publishedAt), 'MMMM d, yyyy')}

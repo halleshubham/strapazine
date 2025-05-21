@@ -81,8 +81,8 @@ const IssuesPage = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {issues.map((issue) => {
-              const imageUrl = issue.coverImage?.url
-                ? `http://localhost:1337${issue.coverImage.url}`
+              const imageUrl = issue.featuredImage?.url
+                ? `http://localhost:1337${issue.featuredImage.url}`
                 : 'https://via.placeholder.com/600x800?text=Issue+Cover';
               
               return (

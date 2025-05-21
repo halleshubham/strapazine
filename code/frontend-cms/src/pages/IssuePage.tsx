@@ -72,8 +72,8 @@ const IssuePage = () => {
     );
   }
 
-  const issueImageUrl = issueDetails?.coverImage?.url
-    ? `http://localhost:1337${issueDetails.coverImage.url}`
+  const issueImageUrl = issueDetails?.featuredImage?.url
+    ? `http://localhost:1337${issueDetails.featuredImage.url}`
     : 'https://via.placeholder.com/1200x600?text=Issue+Cover';
 
   return (

@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { Article, Author, Category, Issue } from '../types';
 
 const API_URL = 'http://localhost:1337/api';
+const API_HOST = 'http://localhost:1337';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -13,70 +14,69 @@ const api = axios.create({
 // Helper to normalize Strapi response structure
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const normalizeResponse = <T>(response: any): T => {
-  if (Array.isArray(response.data)) {
+  if (Array.isArray(response.data.data)) {
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return response.data.map((item: any) => ({
+    return response.data.data.map((item: any) => ({
       id: item.id,
-      ...item.attributes,
+      ...item,
       // Ensure categories is always an array
-      categories: item.attributes.categories?.data 
-        ? item.attributes.categories.data.map((cat: any) => ({
+      categories: item.categories
+        ? item.categories.map((cat: any) => ({
             id: cat.id,
-            ...cat.attributes
+            ...cat
           }))
         : [],
       // Ensure author is properly normalized
-      author: item.attributes.author?.data 
+      author: item.author 
         ? {
-            id: item.attributes.author.data.id,
-            ...item.attributes.author.data.attributes
+            id: item.author.id,
+            ...item.author
           }
         : null,
       // Ensure issue is properly normalized
-      issue: item.attributes.issue?.data 
+      issue: item.issue
         ? {
-            id: item.attributes.issue.data.id,
-            ...item.attributes.issue.data.attributes
+            id: item.issue.id,
+            ...item.issue
           }
         : null,
-      // Ensure coverImage is properly normalized
-      coverImage: item.attributes.coverImage?.data 
+      // Ensure featuredImage is properly normalized
+      featuredImage: item.featuredImage 
         ? {
-            url: item.attributes.coverImage.data.attributes.url
+            url: API_HOST+item.featuredImage.url
           }
         : null,
     })) as T;
   }
   
-  const data = response.data;
-  return {
+  const data = response;
+//   return data;
+    return {
     id: data.id,
-    ...data.attributes,
+    ...data,
     // Ensure categories is always an array
-    categories: data.attributes.categories?.data 
-      ? data.attributes.categories.data.map((cat: any) => ({
-          id: cat.id,
-          ...cat.attributes
-        }))
+    categories: data.categories
+      ? data.categories 
       : [],
     // Ensure author is properly normalized
-    author: data.attributes.author?.data 
+    author: data.author
       ? {
-          id: data.attributes.author.data.id,
-          ...data.attributes.author.data.attributes
+          id: data.author.id,
+          ...data.author
         }
       : null,
     // Ensure issue is properly normalized
-    issue: data.attributes.issue?.data 
+    issue: data.issue
       ? {
-          id: data.attributes.issue.data.id,
-          ...data.attributes.issue.data.attributes
+          id: data.issue.id,
+          ...data.issue
         }
       : null,
-    // Ensure coverImage is properly normalized
-    coverImage: data.attributes.coverImage?.data 
+    // Ensure featuredImage is properly normalized
+    featuredImage: data.featuredImage 
       ? {
-          url: data.attributes.coverImage.data.attributes.url
+          url: API_HOST+data.featuredImage.url
         }
       : null,
   } as T;
@@ -85,7 +85,7 @@ const normalizeResponse = <T>(response: any): T => {
 export const getArticles = async (page = 1, pageSize = 10, filters = {}) => {
   const response = await api.get('/articles', {
     params: {
-      populate: ['author', 'categories', 'coverImage', 'issue'],
+      populate: ['author', 'categories', 'featuredImage', 'issue'],
       pagination: {
         page,
         pageSize,
@@ -96,7 +96,7 @@ export const getArticles = async (page = 1, pageSize = 10, filters = {}) => {
   });
   
   return {
-    data: normalizeResponse<Article[]>(response.data),
+    data: normalizeResponse<Article[]>(response),
     meta: response.data.meta,
   };
 };
@@ -109,11 +109,11 @@ export const getArticleBySlug = async (slug: string) => {
           $eq: slug,
         },
       },
-      populate: ['author', 'categories', 'coverImage', 'issue'],
+      populate: ['author', 'categories', 'featuredImage', 'issue'],
     },
   });
   
-  return normalizeResponse<Article[]>(response.data)[0];
+  return normalizeResponse<Article[]>(response)[0];
 };
 
 export const getArticlesByIssue = async (issueId: number, page = 1, pageSize = 10) => {
@@ -153,7 +153,7 @@ export const getCategories = async () => {
     },
   });
   
-  return normalizeResponse<Category[]>(response.data);
+  return normalizeResponse<Category[]>(response);
 };
 
 export const getAuthors = async () => {
@@ -164,13 +164,13 @@ export const getAuthors = async () => {
     },
   });
   
-  return normalizeResponse<Author[]>(response.data);
+  return normalizeResponse<Author[]>(response);
 };
 
 export const getIssues = async (page = 1, pageSize = 10) => {
   const response = await api.get('/issues', {
     params: {
-      populate: ['coverImage'],
+      populate: ['featuredImage'],
       pagination: {
         page,
         pageSize,
@@ -180,7 +180,7 @@ export const getIssues = async (page = 1, pageSize = 10) => {
   });
   
   return {
-    data: normalizeResponse<Issue[]>(response.data),
+    data: normalizeResponse<Issue[]>(response),
     meta: response.data.meta,
   };
 };

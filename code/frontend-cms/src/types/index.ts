@@ -19,7 +19,7 @@ export interface Issue {
   title: string;
   issueNumber: number;
   publishDate: string;
-  coverImage?: {
+  featuredImage?: {
     url: string;
   };
 }
@@ -32,7 +32,7 @@ export interface Article {
   excerpt: string;
   publishedAt: string;
   updatedAt: string;
-  coverImage?: {
+  featuredImage?: {
     url: string;
   };
   author: Author;

@@ -30,7 +30,7 @@
       "maxLength": 300,
       "required": true
     },
-    "coverImage": {
+    "featuredImage": {
       "type": "media",
       "multiple": false,
       "required": false,

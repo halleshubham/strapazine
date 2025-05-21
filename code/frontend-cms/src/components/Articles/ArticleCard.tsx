@@ -8,8 +8,8 @@ interface ArticleCardProps {
 }
 
 const ArticleCard = ({ article, featured = false }: ArticleCardProps) => {
-  const imageUrl = article.coverImage?.url 
-    ? `http://localhost:1337${article.coverImage.url}` 
+  const imageUrl = article.featuredImage?.url 
+    ? `${article.featuredImage.url}` 
     : 'https://via.placeholder.com/600x400';
   
   // Make sure categories is always defined before accessing length
